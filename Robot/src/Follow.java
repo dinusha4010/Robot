@@ -1,3 +1,5 @@
+import java.io.File;
+
 import lejos.hardware.Button;
 import lejos.hardware.Sound;
 import lejos.hardware.motor.Motor;
@@ -91,7 +93,7 @@ public class Follow implements Runnable {
             // Stop motors after encountering two obstacles
             leftMotor.stop();
             rightMotor.stop();
-            Sound.buzz();
+            play();
 
             // Calculate total time and display
             long totalTime = System.currentTimeMillis() - startTime;
@@ -108,4 +110,14 @@ public class Follow implements Runnable {
             System.exit(0);
         }
     }
+    
+	public void play() {
+		Sound.playSample(new File("object.wav"), Sound.VOL_MAX);
+		Sound.playSample(new File("detected.wav"), Sound.VOL_MAX);
+		
+		Sound.playSample(new File("stop.wav"), Sound.VOL_MAX);
+
+	}
 }
+
+
