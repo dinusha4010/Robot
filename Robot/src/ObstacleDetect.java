@@ -22,8 +22,6 @@ public class ObstacleDetect implements Runnable {
             distance.fetchSample(distanceSample, 0);
             float currentDistance = distanceSample[0] * 100;
 
-            
-
             if (currentDistance < 20) { 
                 transferObject.setFlag(true);
             } else {
@@ -33,7 +31,7 @@ public class ObstacleDetect implements Runnable {
             try {
                 Thread.sleep(10);
             } catch (InterruptedException e) {
-                
+                e.printStackTrace();
             }
         }
     }
