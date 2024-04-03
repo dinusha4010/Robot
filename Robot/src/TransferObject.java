@@ -1,4 +1,3 @@
-
 public class TransferObject {
     private boolean flag;
 
@@ -10,3 +9,4 @@ public class TransferObject {
         this.flag = flag;
     }
 }
+
