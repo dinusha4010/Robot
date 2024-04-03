@@ -24,7 +24,7 @@ public class ObstacleDetect implements Runnable {
 
             System.out.println("Distance: " + currentDistance);
 
-            if (currentDistance < 10) { // Adjust the threshold according to your needs
+            if (currentDistance < 20) { // Adjust the threshold according to your needs
                 transferObject.setFlag(true);
             } else {
                 transferObject.setFlag(false);
