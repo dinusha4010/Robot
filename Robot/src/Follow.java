@@ -4,6 +4,7 @@ import lejos.hardware.Button;
 import lejos.hardware.Sound;
 import lejos.hardware.motor.Motor;
 import lejos.robotics.RegulatedMotor;
+import lejos.utility.Delay;
 
 public class Follow implements Runnable {
     private static final RegulatedMotor leftMotor = Motor.B;
@@ -51,25 +52,26 @@ public class Follow implements Runnable {
         int targetIntensityLower = 15;
         int targetIntensityHigher = 55;
 
-        if (currentIntensity < targetIntensityLower) {
-            leftMotor.setSpeed(defaultSpeed);
-            rightMotor.setSpeed(0);
-        } else if (currentIntensity > targetIntensityLower && currentIntensity < targetIntensity1) {
-            leftMotor.setSpeed(defaultSpeed);
-            rightMotor.setSpeed(50);
-        } else if (currentIntensity > targetIntensity1 && currentIntensity < targetIntensity2) {
-            leftMotor.setSpeed(defaultSpeed);
-            rightMotor.setSpeed(defaultSpeed);
-        } else if (currentIntensity > targetIntensity2 && currentIntensity < targetIntensityHigher) {
-            leftMotor.setSpeed(50);
-            rightMotor.setSpeed(defaultSpeed);
-        } else {
-            leftMotor.setSpeed(0);
-            rightMotor.setSpeed(defaultSpeed);
-        }
+    	if (currentIntensity < targetIntensityLower) {
+			leftMotor.setSpeed(defaultSpeed);
+			rightMotor.setSpeed(0);
 
-        leftMotor.forward();
-        rightMotor.forward();
+		} else if (currentIntensity > targetIntensityLower && currentIntensity < targetIntensity1) {
+			leftMotor.setSpeed(defaultSpeed);
+			rightMotor.setSpeed(50);
+		} else if (currentIntensity > targetIntensity1 && currentIntensity < targetIntensity2) {
+			leftMotor.setSpeed(defaultSpeed);
+			rightMotor.setSpeed(defaultSpeed);
+		} else if (currentIntensity > targetIntensity2 && currentIntensity < targetIntensityHigher) {
+			leftMotor.setSpeed(50);
+			rightMotor.setSpeed(defaultSpeed);
+		} else {
+			leftMotor.setSpeed(0);
+			rightMotor.setSpeed(defaultSpeed);
+		}
+
+		leftMotor.forward();
+		rightMotor.forward();
     }
 
     private void handleObstacle() {
@@ -77,11 +79,30 @@ public class Follow implements Runnable {
         if (obstacleCount < 2) {
             // Handle obstacle avoidance
             // Example code, adjust as needed
-            leftMotor.setSpeed(200);
-            rightMotor.setSpeed(120);
-            leftMotor.forward();
-            rightMotor.forward();
-            
+    		leftMotor.setSpeed((int) (200));
+			rightMotor.setSpeed((int) (120));
+			leftMotor.forward();
+			rightMotor.forward();
+			Delay.msDelay(1000);
+			leftMotor.setSpeed((int) (180));
+			rightMotor.setSpeed((int) (200));
+
+			leftMotor.forward();
+			rightMotor.forward();
+			Delay.msDelay(2500);
+
+			leftMotor.setSpeed((int) (50));
+			rightMotor.setSpeed((int) (100));
+
+			leftMotor.forward();
+			rightMotor.forward();
+			Delay.msDelay(2000);
+			leftMotor.setSpeed((int) (80));
+			rightMotor.setSpeed((int) (100));
+
+			leftMotor.forward();
+			rightMotor.forward();
+			Delay.msDelay(3000);
 
             // Delay for obstacle avoidance
             try {
