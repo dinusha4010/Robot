@@ -123,7 +123,7 @@ public class Follow implements Runnable {
 			leftMotor.stop();
 			rightMotor.stop();
 
-			play();
+			//play();
 
 			long totalTime = System.currentTimeMillis() - startTime;
 
