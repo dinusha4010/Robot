@@ -22,9 +22,9 @@ public class ObstacleDetect implements Runnable {
             distance.fetchSample(distanceSample, 0);
             float currentDistance = distanceSample[0] * 100;
 
-            System.out.println("Distance: " + currentDistance);
+            
 
-            if (currentDistance < 20) { // Adjust the threshold according to your needs
+            if (currentDistance < 20) { 
                 transferObject.setFlag(true);
             } else {
                 transferObject.setFlag(false);
@@ -33,7 +33,7 @@ public class ObstacleDetect implements Runnable {
             try {
                 Thread.sleep(10);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                
             }
         }
     }
