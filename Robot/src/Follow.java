@@ -1,61 +1,77 @@
-import java.io.File;
 
+import java.io.File;
 import lejos.hardware.Button;
 import lejos.hardware.Sound;
 import lejos.hardware.motor.Motor;
 import lejos.robotics.RegulatedMotor;
 import lejos.utility.Delay;
 
+/**
+ * Follow class implements a behavior to follow a line or handle obstacles using light sensor data.
+ * This class utilizes a light sensor thread to continuously monitor the light intensity.
+ * It provides methods to handle line following and obstacle detection.
+ * 
+ * @author Dinusha Kaluarachchi
+ * @author Nuwani Fernando
+ * @author Supun Wathsana
+ * @version 1.0
+ * @since 04/04/2023
+ */
+
 public class Follow implements Runnable {
-    private static final RegulatedMotor leftMotor = Motor.B;
-    private static final RegulatedMotor rightMotor = Motor.A;
-    private TransferObject transferObject;
-    private long startTime;
-    private int obstacleCount = 0;
+	private static final RegulatedMotor leftMotor = Motor.B;
+	private static final RegulatedMotor rightMotor = Motor.A;
+	private TransferObject transferObject;
+	private long startTime;
+	private int obstacleCount = 0;
 
-    public Follow(TransferObject transferObject) {
-        this.transferObject = transferObject;
-        startTime = System.currentTimeMillis();
-    }
+	/**
+	 * Constructs a Follow object with the specified TransferObject.
+	 * 
+	 * @param transferObject The TransferObject to be used by Follow
+	 */
+	public Follow(TransferObject transferObject) {
+		this.transferObject = transferObject;
+		startTime = System.currentTimeMillis();
+	}
 
-    @Override
-    public void run() {
-        LightSensorThread lightSensorThread = new LightSensorThread();
-        lightSensorThread.start();
+	@Override
+	public void run() {
+		LightSensorThread lightSensorThread = new LightSensorThread();
+		lightSensorThread.start();
 
-        while (!Button.ESCAPE.isDown()) {
-            float currentIntensity = lightSensorThread.getCurrentIntensity();
+		while (!Button.ESCAPE.isDown()) {
+			float currentIntensity = lightSensorThread.getCurrentIntensity();
 
-            if (!transferObject.isFlag()) {
-                // Your existing code for line following goes here
-                // ...
-                handleLineFollowing(currentIntensity);
-            } else {
-                // If obstacle detected, stop the robot
-                handleObstacle();
-            }
+			if (!transferObject.isObjectdetect()) {
+				handleLineFollowing(currentIntensity);
+			} else {
+				handleObstacle();
+			}
 
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
-    private void handleLineFollowing(float currentIntensity) {
-        // Adjust motor speeds based on current intensity
-        // Example code, adjust as needed
-        int defaultSpeed = 200;
-        int targetIntensity1 = 30;
-        int targetIntensity2 = 20;
-        int targetIntensityLower = 15;
-        int targetIntensityHigher = 55;
+	/**
+	 * Handles line following behavior based on the current light intensity.
+	 * 
+	 * @param currentIntensity The current light intensity detected by the sensor
+	 */
+	private void handleLineFollowing(float currentIntensity) {
+		int defaultSpeed = 200;
+		int targetIntensity1 = 30;
+		int targetIntensity2 = 20;
+		int targetIntensityLower = 15;
+		int targetIntensityHigher = 55;
 
-    	if (currentIntensity < targetIntensityLower) {
+		if (currentIntensity < targetIntensityLower) {
 			leftMotor.setSpeed(defaultSpeed);
 			rightMotor.setSpeed(0);
-
 		} else if (currentIntensity > targetIntensityLower && currentIntensity < targetIntensity1) {
 			leftMotor.setSpeed(defaultSpeed);
 			rightMotor.setSpeed(50);
@@ -72,14 +88,15 @@ public class Follow implements Runnable {
 
 		leftMotor.forward();
 		rightMotor.forward();
-    }
+	}
 
-    private void handleObstacle() {
-        obstacleCount++;
-        if (obstacleCount < 2) {
-            // Handle obstacle avoidance
-            // Example code, adjust as needed
-    		leftMotor.setSpeed((int) (200));
+	/**
+	 * Handles obstacle avoidance behavior.
+	 */
+	private void handleObstacle() {
+		obstacleCount++;
+		if (obstacleCount < 2) {
+			leftMotor.setSpeed((int) (200));
 			rightMotor.setSpeed((int) (120));
 			leftMotor.forward();
 			rightMotor.forward();
@@ -104,41 +121,35 @@ public class Follow implements Runnable {
 			rightMotor.forward();
 			Delay.msDelay(3000);
 
-            // Delay for obstacle avoidance
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        } else {
-            // Stop motors after encountering two obstacles
-            leftMotor.stop();
-            rightMotor.stop();
-            play();
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		} else {
+			leftMotor.stop();
+			rightMotor.stop();
+			play();
 
-            // Calculate total time and display
-            long totalTime = System.currentTimeMillis() - startTime;
-            System.out.println("Total Time: " + totalTime / 1000 + " s");
+			long totalTime = System.currentTimeMillis() - startTime;
+			System.out.println("Total Time: " + totalTime / 1000 + " s");
 
-            // Delay before exit
-            try {
-                Thread.sleep(10000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+			try {
+				Thread.sleep(10000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 
-            // Exit program
-            System.exit(0);
-        }
-    }
-    
+			System.exit(0);
+		}
+	}
+
+	/**
+	 * Plays sound samples for obstacle detection.
+	 */
 	public void play() {
 		Sound.playSample(new File("object.wav"), Sound.VOL_MAX);
 		Sound.playSample(new File("detected.wav"), Sound.VOL_MAX);
-		
 		Sound.playSample(new File("stop.wav"), Sound.VOL_MAX);
-
 	}
 }
-
-
