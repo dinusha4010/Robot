@@ -27,11 +27,12 @@ public class Follow implements Runnable {
             float currentIntensity = lightSensorThread.getCurrentIntensity();
 
             if (!transferObject.isObjectdetect()) {
-                // Your existing code for line following goes here
-                // ...
+
+                
+                
                 handleLineFollowing(currentIntensity);
             } else {
-                // If obstacle detected, stop the robot
+                
                 handleObstacle();
             }
 
@@ -77,8 +78,8 @@ public class Follow implements Runnable {
     private void handleObstacle() {
         obstacleCount++;
         if (obstacleCount < 2) {
-            // Handle obstacle avoidance
-            // Example code, adjust as needed
+        	
+
     		leftMotor.setSpeed((int) (200));
 			rightMotor.setSpeed((int) (120));
 			leftMotor.forward();
@@ -119,7 +120,7 @@ public class Follow implements Runnable {
             // Calculate total time and display
             long totalTime = System.currentTimeMillis() - startTime;
             System.out.println("Total Time: " + totalTime / 1000 + " s");
-
+            System.out.println("Total Time: " + totalTime / 1000 + " s");
             // Delay before exit
             try {
                 Thread.sleep(10000);
