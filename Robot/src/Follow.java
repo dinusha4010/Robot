@@ -19,6 +19,7 @@ import lejos.utility.Delay;
  */
 
 public class Follow implements Runnable {
+
 	private static final RegulatedMotor leftMotor = Motor.B;
 	private static final RegulatedMotor rightMotor = Motor.A;
 	private TransferObject transferObject;
@@ -70,6 +71,7 @@ public class Follow implements Runnable {
 		int targetIntensityHigher = 55;
 
 		if (currentIntensity < targetIntensityLower) {
+
 			leftMotor.setSpeed(defaultSpeed);
 			rightMotor.setSpeed(0);
 		} else if (currentIntensity > targetIntensityLower && currentIntensity < targetIntensity1) {
@@ -88,6 +90,7 @@ public class Follow implements Runnable {
 
 		leftMotor.forward();
 		rightMotor.forward();
+
 	}
 
 	/**
@@ -97,6 +100,7 @@ public class Follow implements Runnable {
 		obstacleCount++;
 		if (obstacleCount < 2) {
 			leftMotor.setSpeed((int) (200));
+
 			rightMotor.setSpeed((int) (120));
 			leftMotor.forward();
 			rightMotor.forward();
@@ -120,6 +124,7 @@ public class Follow implements Runnable {
 			leftMotor.forward();
 			rightMotor.forward();
 			Delay.msDelay(3000);
+
 
 			try {
 				Thread.sleep(1000);
@@ -147,6 +152,7 @@ public class Follow implements Runnable {
 	/**
 	 * Plays sound samples for obstacle detection.
 	 */
+
 	public void play() {
 		Sound.playSample(new File("object.wav"), Sound.VOL_MAX);
 		Sound.playSample(new File("detected.wav"), Sound.VOL_MAX);
