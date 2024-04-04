@@ -27,6 +27,7 @@ public class Follow implements Runnable {
             float currentIntensity = lightSensorThread.getCurrentIntensity();
 
             if (!transferObject.isObjectdetect()) {
+
                 
                 
                 handleLineFollowing(currentIntensity);
@@ -46,7 +47,7 @@ public class Follow implements Runnable {
     private void handleLineFollowing(float currentIntensity) {
         // Adjust motor speeds based on current intensity
         // Example code, adjust as needed
-        int defaultSpeed = 200;
+        int defaultSpeed = 240;
         int targetIntensity1 = 30;
         int targetIntensity2 = 20;
         int targetIntensityLower = 15;
