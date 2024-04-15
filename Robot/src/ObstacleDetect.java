@@ -39,7 +39,7 @@ public class ObstacleDetect implements Runnable {
 			distance.fetchSample(distanceSample, 0);
 			float currentDistance = distanceSample[0] * 100;
 
-			if (currentDistance < 19) {
+			if (currentDistance < 18) {
 				transferObject.setFlag(true);
 			} else {
 				transferObject.setFlag(false);
