@@ -161,6 +161,7 @@ public class Follow implements Runnable {
 	public void play2() {
 		Sound.playSample(new File("object.wav"), Sound.VOL_MAX);
 		Sound.playSample(new File("detected.wav"), Sound.VOL_MAX);
+		Sound.playSample(new File("detected.wav"), Sound.VOL_MAX);
 		Sound.playSample(new File("stop.wav"), Sound.VOL_MAX);
 	}
 }
